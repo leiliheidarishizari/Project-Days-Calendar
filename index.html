@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days Calendar</title>
     <script type="module" src="common.mjs"></script>
     <script type="module" src="web.mjs"></script>
 </head>
 
 <body>
+    <h1>Days Calendar</h1>
+    
+    <button id="prevMonth">Previous Month</button>
+    <button id="nextMonth">Next Month</button>
+
+    <div>
+        <select id="monthSelect">
+            <!-- Months will be dynamically populated -->
+        </select>
+        <select id="yearSelect">
+            <!-- Years will be dynamically populated -->
+        </select>
+    </div>
+
+    <div id="calendarContainer">
+        <!-- Calendar grid will be dynamically populated -->
+    </div>
+
 </body>
 
 </html>
