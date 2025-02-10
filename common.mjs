@@ -17,20 +17,25 @@ export function calculateSpecialDay(year, month, specialDay) {
         ? targetWeekday - weekdayOffset + 1
         : targetWeekday - weekdayOffset + 8;
 
+    // Handle different occurrences
     if (specialDay.occurence === "second") {
         dateOfSpecialDay += 7;
     } else if (specialDay.occurence === "third") {
         dateOfSpecialDay += 14;
     } else if (specialDay.occurence === "last") {
+        // Fix the calculation for the last occurrence
         const lastDayOfMonth = new Date(year, month + 1, 0); // Get the last day of the month
         const lastDayOfWeek = lastDayOfMonth.getDay(); // Get the weekday of the last day
-        const lastDate = lastDayOfMonth.getDate(); // Get the date of the last day
-        const diff = lastDayOfWeek - targetWeekday; // Get the difference between last day of the week and target weekday
+        const lastDate = lastDayOfMonth.getDate(); // Get the last date of the month
         
-        // Adjust the date calculation to account for a negative difference
-        dateOfSpecialDay = diff < 0 ? lastDate + diff : lastDate - diff;
+        // Calculate how far the target weekday is from the last day of the month
+        const diff = (lastDayOfWeek - targetWeekday + 7) % 7;
+        
+        // If the diff is 0, it means the last target weekday is the last day of the month
+        dateOfSpecialDay = lastDate - diff;
     }
 
     return dateOfSpecialDay;
 }
+
 
