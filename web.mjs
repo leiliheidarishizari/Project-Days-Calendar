@@ -60,8 +60,8 @@ function createCalendarGrid(year, month) {
                             dayName.innerText = d.name;
                             cell.appendChild(dayName);
 
-                            // Add click event to fetch special day description (❗ This was missing)
-                            cell.addEventListener("click", () => fetchSpecialDayDescription(d.descriptionURL));
+                            // Add click event to show special day description
+                            cell.addEventListener("click", () => fetchSpecialDayDescription(d.descriptionURL, d.name));
                         }
                     }
                 });
@@ -108,14 +108,21 @@ function updateCalendar() {
     updateCalendarHeader(currentYear, currentMonth);
     document.querySelector("#monthSelector").value = currentMonth;
     document.querySelector("#yearSelector").value = currentYear;
+
+    // Hide the description box when switching months
+    document.querySelector("#description-box").style.display = "none";
 }
 
-// Function to fetch and display the special day description
-async function fetchSpecialDayDescription(url) {
+// Function to fetch and display the special day description inside the page
+async function fetchSpecialDayDescription(url, dayName) {
     try {
         const response = await fetch(url);
         const text = await response.text();
-        alert(text); // You can replace this with a modal for better UI
+
+        // Show the description in the description box
+        document.querySelector("#description-box").style.display = "block";
+        document.querySelector("#description-title").innerText = dayName;
+        document.querySelector("#description-text").innerText = text;
     } catch (error) {
         console.error("Error fetching description:", error);
     }
@@ -154,6 +161,6 @@ window.onload = function () {
     document.querySelector('#prevMonth').addEventListener('click', prevMonth);
     document.querySelector('#nextMonth').addEventListener('click', nextMonth);
 
-    // Populate dropdowns (❗ This was missing)
+    // Populate dropdowns
     populateMonthYearSelectors();
 };
