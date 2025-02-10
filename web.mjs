@@ -2,6 +2,7 @@
 // It can be loaded into index.html.
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
+
 import { calculateSpecialDay } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
 
@@ -45,19 +46,22 @@ function createCalendarGrid(year, month) {
                     if (d.monthName === monthNames[month]) {
                         const specialDayDate = calculateSpecialDay(year, month, d);
                         if (specialDayDate === day) {
-                            // Highlight special day by adding bold styling
-                            cell.style.backgroundColor = "#FFD700";  // Golden background for special days
+                            // Highlight special day
+                            cell.style.backgroundColor = "#FFD700";
                             cell.style.fontWeight = "bold";
-                            cell.style.color = "black";  // Optional: Make the text color black for contrast
-                            cell.style.padding = "10px"; // Add padding for spacing
+                            cell.style.color = "black";
+                            cell.style.padding = "10px";
 
-                            // Add the special day name below the date in the cell
+                            // Add special day name below date
                             const dayName = document.createElement("div");
-                            dayName.style.fontSize = "12px";  // Make the special day name smaller
-                            dayName.style.marginTop = "5px";  // Add space between the day number and name
-                            dayName.style.textAlign = "center";  // Center align the special day name
+                            dayName.style.fontSize = "12px";
+                            dayName.style.marginTop = "5px";
+                            dayName.style.textAlign = "center";
                             dayName.innerText = d.name;
                             cell.appendChild(dayName);
+
+                            // Add click event to fetch special day description (❗ This was missing)
+                            cell.addEventListener("click", () => fetchSpecialDayDescription(d.descriptionURL));
                         }
                     }
                 });
@@ -86,8 +90,7 @@ function prevMonth() {
     } else {
         currentMonth--;
     }
-    createCalendarGrid(currentYear, currentMonth);
-    updateCalendarHeader(currentYear, currentMonth);
+    updateCalendar();
 }
 
 function nextMonth() {
@@ -97,17 +100,60 @@ function nextMonth() {
     } else {
         currentMonth++;
     }
-    createCalendarGrid(currentYear, currentMonth);
-    updateCalendarHeader(currentYear, currentMonth);
+    updateCalendar();
 }
 
+function updateCalendar() {
+    createCalendarGrid(currentYear, currentMonth);
+    updateCalendarHeader(currentYear, currentMonth);
+    document.querySelector("#monthSelector").value = currentMonth;
+    document.querySelector("#yearSelector").value = currentYear;
+}
+
+// Function to fetch and display the special day description
+async function fetchSpecialDayDescription(url) {
+    try {
+        const response = await fetch(url);
+        const text = await response.text();
+        alert(text); // You can replace this with a modal for better UI
+    } catch (error) {
+        console.error("Error fetching description:", error);
+    }
+}
+
+// Populate dropdown selectors for month & year
+function populateMonthYearSelectors() {
+    const monthSelector = document.querySelector("#monthSelector");
+    const yearSelector = document.querySelector("#yearSelector");
+
+    monthSelector.innerHTML = monthNames.map((m, i) => `<option value="${i}">${m}</option>`).join('');
+    for (let y = 2000; y <= 2030; y++) {
+        yearSelector.innerHTML += `<option value="${y}">${y}</option>`;
+    }
+
+    monthSelector.value = currentMonth;
+    yearSelector.value = currentYear;
+
+    monthSelector.addEventListener("change", (e) => {
+        currentMonth = parseInt(e.target.value);
+        updateCalendar();
+    });
+
+    yearSelector.addEventListener("change", (e) => {
+        currentYear = parseInt(e.target.value);
+        updateCalendar();
+    });
+}
+
+// Initialize everything when the page loads
 window.onload = function () {
     createCalendarGrid(currentYear, currentMonth);
     updateCalendarHeader(currentYear, currentMonth);
 
-    // Attach event listeners to the buttons
+    // Attach event listeners to navigation buttons
     document.querySelector('#prevMonth').addEventListener('click', prevMonth);
     document.querySelector('#nextMonth').addEventListener('click', nextMonth);
+
+    // Populate dropdowns (❗ This was missing)
+    populateMonthYearSelectors();
 };
-
-
