@@ -22,11 +22,13 @@ export function calculateSpecialDay(year, month, specialDay) {
     } else if (specialDay.occurence === "third") {
         dateOfSpecialDay += 14;
     } else if (specialDay.occurence === "last") {
-        const lastDayOfMonth = new Date(year, month + 1, 0);
-        const lastDayOfWeek = lastDayOfMonth.getDay();
-        const lastDate = lastDayOfMonth.getDate();
-        const diff = lastDayOfWeek - targetWeekday;
-        dateOfSpecialDay = lastDate - diff;
+        const lastDayOfMonth = new Date(year, month + 1, 0); // Get the last day of the month
+        const lastDayOfWeek = lastDayOfMonth.getDay(); // Get the weekday of the last day
+        const lastDate = lastDayOfMonth.getDate(); // Get the date of the last day
+        const diff = lastDayOfWeek - targetWeekday; // Get the difference between last day of the week and target weekday
+        
+        // Adjust the date calculation to account for a negative difference
+        dateOfSpecialDay = diff < 0 ? lastDate + diff : lastDate - diff;
     }
 
     return dateOfSpecialDay;
