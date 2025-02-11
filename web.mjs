@@ -130,26 +130,27 @@ async function fetchSpecialDayDescription(url, dayName) {
 
 // Populate dropdown selectors for month & year
 function populateMonthYearSelectors() {
-    const monthSelector = document.querySelector("#monthSelector");
-    const yearSelector = document.querySelector("#yearSelector");
+  const monthSelector = document.querySelector("#monthSelector");
+  const yearSelector = document.querySelector("#yearSelector");
 
-    monthSelector.innerHTML = monthNames.map((m, i) => `<option value="${i}">${m}</option>`).join('');
-    for (let y = 2000; y <= 2030; y++) {
-        yearSelector.innerHTML += `<option value="${y}">${y}</option>`;
-    }
+  // Populate month dropdown efficiently
+  monthSelector.innerHTML = monthNames.map((m, i) => `<option value="${i}">${m}</option>`).join('');
 
-    monthSelector.value = currentMonth;
-    yearSelector.value = currentYear;
+  // Efficient way to populate year dropdown
+  yearSelector.innerHTML = Array.from({ length: 201 }, (_, i) => `<option value="${1900 + i}">${1900 + i}</option>`).join('');
 
-    monthSelector.addEventListener("change", (e) => {
-        currentMonth = parseInt(e.target.value);
-        updateCalendar();
-    });
+  monthSelector.value = currentMonth;
+  yearSelector.value = currentYear;
 
-    yearSelector.addEventListener("change", (e) => {
-        currentYear = parseInt(e.target.value);
-        updateCalendar();
-    });
+  monthSelector.addEventListener("change", (e) => {
+      currentMonth = parseInt(e.target.value);
+      updateCalendar();
+  });
+
+  yearSelector.addEventListener("change", (e) => {
+      currentYear = parseInt(e.target.value);
+      updateCalendar();
+  });
 }
 
 // Initialize everything when the page loads
