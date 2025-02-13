@@ -165,3 +165,6 @@ window.onload = function () {
     // Populate dropdowns
     populateMonthYearSelectors();
 };
+
+
+export { fetchSpecialDayDescription };
