@@ -6,8 +6,36 @@ import { createEvents } from 'ics';
 import daysData from './days.json' assert { type: 'json' };
 import { calculateSpecialDay } from './common.mjs';
 
+// Function to fetch the description text from URL
+async function fetchDescriptionText(url) {
+    try {
+        const response = await fetch(url);
+        return await response.text();
+    } catch (error) {
+        console.error(`Error fetching description from ${url}:`, error);
+        return "Description not available."; // Fallback message
+    }
+}
+
 // Function to generate an iCal (.ics) file from event data
-function generateICal(events) {
+async function generateICal() {
+    const events = [];
+
+    for (let year = 2020; year <= 2030; year++) {
+        for (const day of daysData) {
+            const monthIndex = new Date(`${day.monthName} 1, ${year}`).getMonth();
+            const dayDate = calculateSpecialDay(year, monthIndex, day);
+            
+            const descriptionText = await fetchDescriptionText(day.descriptionURL);
+
+            events.push({
+                title: day.name,
+                start: [year, monthIndex + 1, dayDate], // Year, Month (1-based index), Day
+                description: `Description of the day: ${descriptionText}`, // Add the fetched text instead of URL
+            });
+        }
+    }
+
     createEvents(events, (error, value) => {
         if (error) {
             console.log(error);
@@ -18,22 +46,5 @@ function generateICal(events) {
     });
 }
 
-const events = [];
-
-// Loop through years 2020 to 2030 and calculate special days
-for (let year = 2020; year <= 2030; year++) {
-    daysData.forEach((day) => {
-        const monthIndex = new Date(`${day.monthName} 1, ${year}`).getMonth();
-        const dayDate = calculateSpecialDay(year, monthIndex, day);
-        
-        // Push each special day as an event object
-        events.push({
-            title: day.name,
-            start: [year, monthIndex + 1, dayDate], // Year, Month (1-based index), Day
-            description: `More info: ${day.descriptionURL}`,
-        });
-    });
-}
-
-// Generate the .ics file using the calculated events
-generateICal(events);
+// Run the function to generate the iCal file
+generateICal();
