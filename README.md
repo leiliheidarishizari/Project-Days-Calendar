@@ -1,36 +1,26 @@
-# Project-Days-Calendar
+**Days Calendar Project**
+Overview
+The Days Calendar is a web application that displays a dynamic calendar for the current month and highlights special commemorative days, such as holidays and observances. The app allows users to navigate through months and years and includes features like exporting the calendar to an iCal file, importing events from Google Calendar, and testing with Jest.
 
-The Days Calendar is a web application that dynamically displays a calendar for the current month, highlighting specific commemorative days that occur annually on varying dates. For example, Ada Lovelace Day is observed on the second Tuesday of every October. The application reads data from a provided JSON file to identify these special days and highlights them on the calendar.
+Key Features
+Dynamic Calendar Generation: The app dynamically generates a calendar for the current month. Each day is displayed in a rectangular grid, and the first day of the month is aligned properly according to the weekday.
 
-**Key Features**:
+Commemorative Day Highlights: The calendar highlights special days based on the days.json file, such as holidays or significant observances (e.g., Ada Lovelace Day, Earth Day). It shows which dates correspond to specific commemorative days for the selected month.
 
-Dynamic Calendar Generation: The application generates a calendar for the current month, displaying each day as a rectangle.
+Navigation Controls: Users can navigate between the current, previous, and next months with buttons that adjust the displayed calendar.
 
-Navigation Controls: Users can navigate to the previous and next months using dedicated buttons.
+Month and Year Selector: A dropdown allows users to easily jump to a specific month and year.
 
-Month and Year Selector: A selector allows users to jump to a specific month and year.
+iCal Generation: The app allows users to export commemorative days to an iCal file (.ics) for easy integration with external calendar apps like Apple Calendar, Outlook, and Google Calendar.
 
-Commemorative Day Highlights: Days specified in the JSON file are highlighted on the calendar.
+Google Calendar Import: Users can import events from their Google Calendar to visualize them alongside the commemorative days.
 
-How It Works:
+Responsive Design: The application adapts to different screen sizes and is optimized for use on both mobile and desktop devices.
 
-*Date Calculation*: For each commemorative day, the application calculates the specific date for the current year.
-
-*Calendar Rendering*: The calendar for the current month is rendered, with each day displayed as a rectangle.
-
-Highlighting Special Days: Days that match the calculated dates of commemorative days are highlighted on the calendar.
-
-*User Interaction*: Users can navigate through months and years, with the calendar updating accordingly.
-
-**Technologies Used**:
-
-*HTML/CSS*: For structuring and styling the calendar.
-
-*JavaScript*: For dynamic functionality, including date calculations and DOM manipulation.
-
-*JSON*: For storing and retrieving data about commemorative days.
-
-This application provides an interactive way to explore and learn about various commemorative days throughout the year.
-
-
-
+Technologies Used
+HTML/CSS: For structuring and styling the calendar interface.
+JavaScript: For handling dynamic functionality, including date calculations, DOM manipulation, and API calls.
+JSON: For storing commemorative day data.
+iCal Generation: A JavaScript library is used to generate .ics files for exporting events.
+Google Calendar API: For integrating with and importing events from Google Calendar.
+Jest: For testing JavaScript functions, ensuring that the logic works correctly (e.g., date calculations, calendar rendering, iCal file generation).
