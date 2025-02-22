@@ -2,12 +2,12 @@
 
 // Function to calculate the correct date for a special day based on its occurrence pattern
 export function calculateSpecialDay(year, month, specialDay) {
-    const monthIndex = new Date(`${specialDay.monthName} 1, ${year}`).getMonth();
-    const firstDayOfMonth = new Date(year, monthIndex, 1);
-    const dayOfWeek = firstDayOfMonth.getDay();
+    const monthIndex = new Date(`${specialDay.monthName} 1, ${year}`).getMonth();//Calculate the Month Index
+    const firstDayOfMonth = new Date(year, monthIndex, 1);// representing the 1st day of the specified month and year.
+    const dayOfWeek = firstDayOfMonth.getDay();//gets the day of the week for the first day of the month (0 for Sunday, 1 for Monday, etc.).
 
     // Adjusting for day of the week (Sunday = 0)
-    const weekdayOffset = (dayOfWeek === 0 ? 7 : dayOfWeek); 
+    const weekdayOffset = (dayOfWeek === 0 ? 7 : dayOfWeek);//We are treating Sunday as the last day of the week (7th day)
 
     // Get the target weekday for the event (e.g. "Monday" -> 1)
     const targetWeekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].indexOf(specialDay.dayName);

@@ -15,7 +15,9 @@ let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 
 function createCalendarGrid(year, month) {
+    //It  figures out which day the month starts on
     const firstDay = (new Date(year, month).getDay() + 6) % 7;
+    //It figures out how many days are in the month
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
     const calendarTable = document.createElement("table");
@@ -104,11 +106,11 @@ function nextMonth() {
 }
 
 function updateCalendar() {
-    createCalendarGrid(currentYear, currentMonth);
-    updateCalendarHeader(currentYear, currentMonth);
+    createCalendarGrid(currentYear, currentMonth);// Redraw calendar grid
+    updateCalendarHeader(currentYear, currentMonth);// Update header
+    // Update dropdown values
     document.querySelector("#monthSelector").value = currentMonth;
     document.querySelector("#yearSelector").value = currentYear;
-
     // Hide the description box when switching months
     document.querySelector("#description-box").style.display = "none";
 }
